@@ -1,0 +1,1 @@
+https://tinygp.readthedocs.io/en/stable/tutorials/mixture.html

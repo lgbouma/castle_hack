@@ -1,0 +1,7 @@
+jaxoplanet
+jax
+tinygp
+
+[basically, this is porting old code for a simultaneous transit + gp fit...
+	to the tic 8829 data]
+
