@@ -78,13 +78,13 @@ if __name__ == "__main__":
 
     init_params = {
         "baseline": jnp.array(0.99),
-        "t0": jnp.array(1.5),
-        "log_period": jnp.log(5.0),
+        "t0": jnp.array(2.2),
+        "log_period": jnp.log(3.03),
         "log_duration": jnp.log(0.25),
-        "log_depth": jnp.log(1e-3),
-        "log_sho_period": jnp.log(5.0),
-        "log_Q": jnp.log(3.0),
-        "log_S0": jnp.log(0.2),
+        "log_depth": jnp.log(1e-2),
+        "log_sho_period": jnp.log(7.01),
+        "log_Q": jnp.log(4.01),
+        "log_S0": jnp.log(0.011),
         "log_jitter": jnp.log(1e-2),
     }
 
@@ -94,8 +94,15 @@ if __name__ == "__main__":
         residuals = flux - params["baseline"] - transit
         return -gp.log_probability(residuals)
 
-    solver = jaxopt.ScipyMinimize(fun=jax.jit(loss))
-    soln = solver.run(init_params)
+    SKIP_MINIMIZE = False
+    if SKIP_MINIMIZE:
+        class Result:
+            params = true_params
+
+        soln = Result()
+    else:
+        solver = jaxopt.ScipyMinimize(fun=jax.jit(loss))
+        soln = solver.run(init_params)
 
     map_period = float(jnp.exp(soln.params["log_period"]))
     map_depth = float(jnp.exp(soln.params["log_depth"]))
